@@ -45,6 +45,7 @@ namespace Ex02_01
             int startCol;
             int endRow;
             int endCol;
+            bool inValid=false;
 
             if (string.IsNullOrWhiteSpace(i_PlayerMove) || i_PlayerMove.Length != 5 || i_PlayerMove[2] != '>')
             {
@@ -57,18 +58,16 @@ namespace Ex02_01
             endCol = i_PlayerMove[4] - 'a';
                
             // Basic boundary checks
-
+            
             if (startRow < 0 || startRow >= Size || startCol < 0 || startCol >= Size ||
                 endRow < 0 || endRow >= Size || endCol < 0 || endCol >= Size)
                 return false;
 
 
-            if (Grid[startRow][startCol] == null)
+            if (Grid[startRow][startCol] == null || Grid[endRow][endCol] != null)
                 return false;
 
-
-            if (Grid[endRow][endCol] != null)
-                return false;
+            
             
             if (startRow == endRow || startCol == endCol || Grid[startRow][startCol].Sign != i_PlayerSign)
             {
@@ -80,6 +79,9 @@ namespace Ex02_01
                 {
                     return false;
                 }
+                if (endRow+1 != startRow )
+                    return false;
+                       
             }
             else
             {
@@ -87,6 +89,8 @@ namespace Ex02_01
                 {
                     return false;
                 }
+                if (endRow!= startRow+1)
+                    return false;
             }
 
             UpdateBoardBuilder(startRow, startCol, endRow, endCol);
@@ -101,7 +105,12 @@ namespace Ex02_01
             Grid[startRow][startCol] = null;
         }
 
-        
+        public bool IsEatingMove()
+        {
+
+
+            return true;
+        }
 
     }
 }

@@ -1,0 +1,14 @@
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\bin\Debug\net8.0\Ex02_temp.exe
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\bin\Debug\net8.0\Ex02_temp.deps.json
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\bin\Debug\net8.0\Ex02_temp.runtimeconfig.json
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\bin\Debug\net8.0\Ex02_temp.dll
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\bin\Debug\net8.0\Ex02_temp.pdb
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\Ex02_temp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\Ex02_temp.AssemblyInfoInputs.cache
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\Ex02_temp.AssemblyInfo.cs
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\Ex02_temp.csproj.CoreCompileInputs.cache
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\Ex02_temp.dll
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\refint\Ex02_temp.dll
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\Ex02_temp.pdb
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\Ex02_temp.genruntimeconfig.cache
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Ex02_temp\Ex02_temp\obj\Debug\net8.0\ref\Ex02_temp.dll

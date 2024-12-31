@@ -24,7 +24,7 @@ namespace Ex02_01
                     }
                     else
                     {
-                        Console.Write($" {board.Grid[row][col].Symbol} |");
+                        Console.Write($" {board.Grid[row][col].Sign} |");
                     }
                 }
                 Console.WriteLine();

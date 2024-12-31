@@ -24,9 +24,8 @@ namespace Ex02_01
 
         public void GetMove(BoardBuilder i_Board)
         {
-
             PlayerMove = Console.ReadLine();
-            while (!(i_Board.IsMoveValid(PlayerMove)))
+            while (!(i_Board.IsMoveValid(PlayerMove,GameSign)))
             {
                 Console.WriteLine("invalid move, please rewrite your move :");
                 PlayerMove = Console.ReadLine();

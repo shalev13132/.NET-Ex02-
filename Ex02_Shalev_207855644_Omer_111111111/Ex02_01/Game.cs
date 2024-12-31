@@ -29,7 +29,7 @@ namespace Ex02_01
                 ConsoleUI.DisplayBoard(Board);
                 if (FirstMoveFlag)
                 {
-                    ConsoleUI.DisplayFirstTurnMessage( currentPlayer);
+                    ConsoleUI.DisplayFirstTurnMessage(currentPlayer);
                     FirstMoveFlag = false;
                 }
                 else

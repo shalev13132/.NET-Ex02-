@@ -23,7 +23,5 @@ namespace Ex02_01
             IsKing = true;
             Sign = char.ToUpper(Sign); // Converts 'x'/'o' to 'X'/'O'
         }
-
-
     }
 }

@@ -17,7 +17,6 @@ namespace Ex02_01
             Player1 = new Players(player1Name, 'X');
             Player2 = new Players(player2Name, 'O');
         }
-
          public void Start()
         {
             Players currentPlayer = Player1;
@@ -37,10 +36,6 @@ namespace Ex02_01
                     ConsoleUI.DisplayPreTurnMessage(currentPlayer,previousPlayer);
                 }
                 currentPlayer.GetMove(Board);
-
-
-
-
 
                 if(currentPlayer==Player1)
                 {

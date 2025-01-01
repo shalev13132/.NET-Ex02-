@@ -47,17 +47,12 @@ namespace Ex02_01
         {
             Console.WriteLine("{0}'s Turn ({1}) Please enter your move (ROWcol>ROWcol):",CurrentPlayer.PlayerName,CurrentPlayer.GameSign);
         }
+        
         public static void DisplayPreTurnMessage(Players CurrentPlayer, Players previusPlayer)
         {
             Console.WriteLine("{0}'s move was ({1}) : {2}",previusPlayer.PlayerName,previusPlayer.GameSign,previusPlayer.PlayerMove);
             Console.WriteLine("{0}'s Turn ({1}) Please enter your move (ROWcol>ROWcol):", CurrentPlayer.PlayerName, CurrentPlayer.GameSign);
         }
         
-
-        public static void WaitForKeyPress()
-        {
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey();
-        }
     }
 }

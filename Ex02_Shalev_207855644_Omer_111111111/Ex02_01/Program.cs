@@ -20,6 +20,9 @@ namespace Ex02_01
             Console.ReadLine();
         }
 
+        
+        
+        
         static public string PlayerNameValidation()
         {
             Console.WriteLine("Please enter your name, no spaces, max 20 letters long");
@@ -70,7 +73,6 @@ namespace Ex02_01
                 Console.WriteLine("for 2 players game please enter 1, to play against the computer please enter 2 ");
                 input = Console.ReadLine();
 
-
                 if (input.Equals("1"))
                 {
                     playerName = PlayerNameValidation();
@@ -82,11 +84,8 @@ namespace Ex02_01
                     break;
                 }
                 Console.WriteLine("Invalid input.");
-
             }
             return playerName;
-
         }
     }
-
 }

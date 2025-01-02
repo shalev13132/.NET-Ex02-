@@ -39,8 +39,11 @@ namespace Ex02_01
         }
 
 
-        public bool IsMoveValid(string i_PlayerMove, char i_PlayerSign)
+        public bool IsMoveValid(Players CurrentPlayer)
         {
+            string i_PlayerMove = CurrentPlayer.PlayerMove ;
+            char i_PlayerSign = CurrentPlayer.GameSign;
+
             if (string.IsNullOrWhiteSpace(i_PlayerMove) || i_PlayerMove.Length != 5 || i_PlayerMove[2] != '>')
             {
                 return false;
@@ -59,6 +62,16 @@ namespace Ex02_01
                     {
                         RemoveEatedPiece(startRow, startCol, endRow, endCol);
                         UpdateBoardBuilder(startRow, startCol, endRow, endCol);
+                        
+                        EatingMoves= GetAvailableMoves(i_PlayerSign);
+                        if(EatingMoves != null)
+                        {
+                            CurrentPlayer.HaveEatingMove = true;
+                        }
+                        else
+                        {
+                            CurrentPlayer.HaveEatingMove = false;
+                        }
                         return true;
                     }
                 }

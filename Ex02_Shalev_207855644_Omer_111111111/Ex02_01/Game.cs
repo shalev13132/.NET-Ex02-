@@ -17,10 +17,10 @@ namespace Ex02_01
             Player1 = new Players(player1Name, 'X');
             Player2 = new Players(player2Name, 'O');
         }
-         public void Start()
+        public void Start()
         {
             Players currentPlayer = Player1;
-            Players previousPlayer=Player2;
+            Players previousPlayer = Player2;
             bool FirstMoveFlag = true;
 
             while (true)
@@ -33,19 +33,27 @@ namespace Ex02_01
                 }
                 else
                 {
-                    ConsoleUI.DisplayPreTurnMessage(currentPlayer,previousPlayer);
+                    ConsoleUI.DisplayPreTurnMessage(currentPlayer, previousPlayer);
                 }
-                currentPlayer.GetMove(Board);
+                currentPlayer.GetMove(Board, currentPlayer);
 
-                if(currentPlayer==Player1)
+                if (currentPlayer.HaveEatingMove)
                 {
-                    currentPlayer = Player2;
-                    previousPlayer = Player1;
+
                 }
                 else
                 {
-                    currentPlayer = Player1;
-                    previousPlayer = Player2;
+
+                    if (currentPlayer == Player1)
+                    {
+                        currentPlayer = Player2;
+                        previousPlayer = Player1;
+                    }
+                    else
+                    {
+                        currentPlayer = Player1;
+                        previousPlayer = Player2;
+                    }
                 }
                 Console.ReadLine();
             }

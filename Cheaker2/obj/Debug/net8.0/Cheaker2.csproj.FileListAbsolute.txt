@@ -1,0 +1,14 @@
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\Cheaker2.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\Cheaker2.AssemblyInfoInputs.cache
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\Cheaker2.AssemblyInfo.cs
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\Cheaker2.csproj.CoreCompileInputs.cache
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\bin\Debug\net8.0\Cheaker2.exe
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\bin\Debug\net8.0\Cheaker2.deps.json
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\bin\Debug\net8.0\Cheaker2.runtimeconfig.json
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\bin\Debug\net8.0\Cheaker2.dll
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\bin\Debug\net8.0\Cheaker2.pdb
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\Cheaker2.dll
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\refint\Cheaker2.dll
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\Cheaker2.pdb
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\Cheaker2.genruntimeconfig.cache
+C:\Users\omerz\OneDrive\c sharp\Ex_02\Cheaker2\Cheaker2\obj\Debug\net8.0\ref\Cheaker2.dll

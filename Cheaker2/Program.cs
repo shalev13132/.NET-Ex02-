@@ -4,7 +4,6 @@ namespace Cheaker2
 {
     using System;
 
-    using System;
 
     class Program
     {

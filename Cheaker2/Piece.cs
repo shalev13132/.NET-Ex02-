@@ -21,8 +21,19 @@ namespace Cheaker2
 
         public void PromoteToKing()
         {
-            IsKing = true;
-            Symbol = char.ToUpper(Symbol); // X או O הופך ל-X או O באות גדולה
+            if (!IsKing)
+            {
+                IsKing = true;
+                if (Symbol == 'X')
+                {
+                    Symbol = 'K';
+
+                }
+                else if (Symbol == 'O')
+                {
+                    Symbol = 'U';
+                }
+            }
         }
     }
 

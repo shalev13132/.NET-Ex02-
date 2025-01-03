@@ -64,8 +64,6 @@ namespace Cheaker2
                     if (endRow == 0 || endRow == board.Size - 1)
                     {
                         board.Grid[endRow, endCol].PromoteToKing();
-                        Console.WriteLine($"{currentPlayer.Name}'s piece has been promoted to a King!");
-                        Console.ReadLine();
                     }
 
 
@@ -89,14 +87,12 @@ namespace Cheaker2
                                 nextStartRow != endRow || nextStartCol != endCol)
                             {
                                 Console.WriteLine("Invalid move format or incorrect piece. Please try again.");
-                                Console.ReadLine();
                                 continue;
                             }
 
                             if (!board.IsCaptureMove(nextStartRow, nextStartCol, nextEndRow, nextEndCol, currentPlayer))
                             {
                                 Console.WriteLine("You must capture an opponent's piece if possible.");
-                                Console.ReadLine();
                                 continue;
                             }
 
@@ -115,7 +111,6 @@ namespace Cheaker2
                 else
                 {
                     Console.WriteLine("Invalid move. Please try again.");
-                    Console.ReadLine();
                 }
             }
         }

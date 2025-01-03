@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -167,7 +165,6 @@ namespace Cheaker2
             if ((piece.Symbol == 'X' && row == 0) || (piece.Symbol == 'O' && row == Grid.GetLength(0) - 1))
             {
                 piece.PromoteToKing();
-                Console.WriteLine($"{piece.Owner}'s piece at {row},{col} has been promoted to a King!");
             }
         }
 

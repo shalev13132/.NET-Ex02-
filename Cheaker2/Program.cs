@@ -2,30 +2,31 @@
 
 namespace Cheaker2
 {
-    using System;
-
-
     class Program
     {
         static void Main()
         {
             Console.WriteLine("Welcome to Checkers!");
 
-            string player1Name = GetValidPlayerName("Player 1");
-            string player2Name = GetValidPlayerName("Player 2");
+            string m_player1Name = GetValidPlayerName("Player 1");
+            int m_boardSize = GetBoardSize();
+            string m_player2Name = GameModeSelect();
 
-            int boardSize = GetBoardSize();
-
-            Game game = new Game(boardSize, player1Name, player2Name);
+            Game game = new Game(m_boardSize, m_player1Name, m_player2Name);
             game.Start();
+            while ((Console.ReadLine() == "Y"))
+            {
+                game = new Game(m_boardSize, m_player1Name, m_player2Name);
+                game.Start();
+            }
         }
 
-        static string GetValidPlayerName(string playerLabel)
+        static string GetValidPlayerName(string i_playerLabel)
         {
             string playerName;
             do
             {
-                Console.Write($"Enter {playerLabel} Name (up to 20 characters, no spaces): ");
+                Console.Write($"Enter {i_playerLabel} Name (up to 20 characters, no spaces): ");
                 playerName = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(playerName))
@@ -42,7 +43,7 @@ namespace Cheaker2
                 }
                 else
                 {
-                    break; // Name is valid
+                    break;
                 }
 
             } while (true);
@@ -70,7 +71,36 @@ namespace Cheaker2
 
             return boardSize;
         }
+
+        static private string GameModeSelect()
+        {
+            string input;
+            string playerName;
+
+            while (true)
+            {
+                Console.WriteLine("for 2 players game please enter 1, to play against the computer please enter 2 ");
+                input = Console.ReadLine();
+
+                if (input.Equals("1"))
+                {
+                    playerName = GetValidPlayerName("Player 2");
+                    break;
+                }
+                else if (input.Equals("2"))
+                {
+                    playerName = "Computer";
+                    break;
+                }
+                Console.WriteLine("Invalid input.");
+            }
+            return playerName;
+        }
+
+
     }
+
+    
 
 
 }

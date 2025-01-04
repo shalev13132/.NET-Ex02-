@@ -1,24 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Cheaker2
+﻿namespace Cheaker2
 {
-    using System.Collections.Generic;
-
     public class Player
     {
         public string Name { get; }
         public char Symbol { get; }
-        public List<Piece> Pieces { get; }
+        public string Id { get; }
+        public string Move { get; internal set; }
+        public int Points { get; internal set; } 
 
-        public Player(string name, char symbol)
+
+        public Player(string name,string id ,char symbol)
         {
             Name = name;
+            Id = id;
             Symbol = symbol;
-            Pieces = new List<Piece>();
         }
     }
 

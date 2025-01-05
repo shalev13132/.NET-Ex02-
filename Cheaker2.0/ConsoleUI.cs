@@ -1,32 +1,31 @@
 ﻿using System;
 
-
-namespace Cheaker2
+namespace Ex02
 {
     public static class ConsoleUI
     {
-        public static void DisplayBoard(Board board)
+        public static void DisplayBoard(Board i_board)
         {
-            Console.Clear();
-            Console.WriteLine("    " + string.Join("   ", GetColumnHeaders(board.Size)));
-            Console.WriteLine("  " + new string('=', (board.Size * 4) + 1));
+            Ex02.ConsoleUtils.Screen.Clear();
+            Console.WriteLine("    " + string.Join("   ", GetColumnHeaders(i_board.Size)));
+            Console.WriteLine("  " + new string('=', (i_board.Size * 4) + 1));
 
-            for (int row = 0; row < board.Size; row++)
+            for (int row = 0; row < i_board.Size; row++)
             {
                 Console.Write((char)('A' + row) + " |");
-                for (int col = 0; col < board.Size; col++)
+                for (int col = 0; col < i_board.Size; col++)
                 {
-                    if (board.Grid[row, col] == null)
+                    if (i_board.Grid[row, col] == null)
                     {
                         Console.Write("   |");
                     }
                     else
                     {
-                        Console.Write($" {board.Grid[row, col].Symbol} |");
+                        Console.Write($" {i_board.Grid[row, col].Symbol} |");
                     }
                 }
                 Console.WriteLine();
-                Console.WriteLine("  " + new string('=', (board.Size * 4) + 1));
+                Console.WriteLine("  " + new string('=', (i_board.Size * 4) + 1));
             }
         }
 
@@ -72,6 +71,12 @@ namespace Cheaker2
         public static void DisplayNewGameMessage()
         {
             Console.WriteLine("For new game please press Y, to end press any key ");
+        }
+
+        public static void PointsPrint(string i_player1Name, int i_player1Points, string i_player2Name, int i_player2Points)
+        {
+            Console.WriteLine("Current Scores: {0}: {1}, {2}: {3}", i_player1Name, i_player1Points, i_player2Name, i_player2Points);
+
         }
     }
 }

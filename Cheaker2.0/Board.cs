@@ -1,17 +1,17 @@
 ﻿using System;
 
 
-namespace Cheaker2
+namespace Ex02
 {
     public class Board
     {
         public int Size { get; private set; }
         public Piece[,] Grid { get; }
 
-        public Board(int size)
+        public Board(int i_Size)
         {
-            Size = size;
-            Grid = new Piece[size, size];
+            Size = i_Size;
+            Grid = new Piece[i_Size, i_Size];
             InitializeBoard();
         }
 
@@ -21,70 +21,61 @@ namespace Cheaker2
             {
                 for (int j = 0; j < Size; j++)
                 {
-                    if ((i + j) % 2 != 0) // משבצות שחורות בלבד
+                    if ((i + j) % 2 != 0)
                     {
                         if (i < Size / 2 - 1)
                         {
-                            Grid[i, j] = new Piece('O', "Player2"); // שחקן 2
+                            Grid[i, j] = new Piece('O', "Player2");
                         }
                         else if (i > Size / 2)
                         {
-                            Grid[i, j] = new Piece('X', "Player1"); // שחקן 1
+                            Grid[i, j] = new Piece('X', "Player1");
                         }
                     }
                 }
             }
         }
-        public bool IsMoveValid(int i_startRow, int i_startCol, int i_endRow, int i_endCol, Player i_currentPlayer)
+        public bool IsMoveValid(int i_StartRow, int i_StartCol, int i_EndRow, int i_EndCol, Player i_CurrentPlayer)
         {
-            // בדיקות גבול
-            if (i_startRow < 0 || i_startRow >= Size || i_startCol < 0 || i_startCol >= Size ||
-                i_endRow < 0 || i_endRow >= Size || i_endCol < 0 || i_endCol >= Size)
+            if (i_StartRow < 0 || i_StartRow >= Size || i_StartCol < 0 || i_StartCol >= Size ||
+                i_EndRow < 0 || i_EndRow >= Size || i_EndCol < 0 || i_EndCol >= Size)
             {
-
                 return false;
             }
 
-            if (i_currentPlayer.Symbol == 'X')
+            if (i_CurrentPlayer.Symbol == 'X')
             {
-                if (!(Grid[i_startRow, i_startCol].IsKing) && i_endRow > i_startRow)
+                if (!(Grid[i_StartRow, i_StartCol].IsKing) && i_EndRow > i_StartRow)
                 {
                     return false;
                 }
-
             }
-            else if (i_currentPlayer.Symbol == 'O')
+            else if (i_CurrentPlayer.Symbol == 'O')
             {
-                if (!(Grid[i_startRow, i_startCol].IsKing) && i_endRow < i_startRow)
+                if (!(Grid[i_StartRow, i_StartCol].IsKing) && i_EndRow < i_StartRow)
                 {
                     return false;
                 }
-
             }
 
-            // בדיקה אם המשבצת ההתחלתית שייכת לשחקן הנוכחי
-            if (Grid[i_startRow, i_startCol] == null || Grid[i_startRow, i_startCol].Owner != i_currentPlayer.Id)
+            if (Grid[i_StartRow, i_StartCol] == null || Grid[i_StartRow, i_StartCol].Owner != i_CurrentPlayer.Id)
             {
                 return false;
             }
 
-            // בדיקה אם המשבצת הסופית ריקה
-            if (Grid[i_endRow, i_endCol] != null)
+            if (Grid[i_EndRow, i_EndCol] != null)
             {
                 return false;
             }
 
-            // הבדיקה אם מדובר בתנועה רגילה או במהלך אכילה
-            int rowDiff = i_endRow - i_startRow;
-            int colDiff = i_endCol - i_startCol;
+            int rowDiff = i_EndRow - i_StartRow;
+            int colDiff = i_EndCol - i_StartCol;
 
             if (Math.Abs(rowDiff) == 1 && Math.Abs(colDiff) == 1)
             {
-                // תנועה רגילה: צעד אחד באלכסון
-                if (!Grid[i_startRow, i_startCol].IsKing)
+                if (!Grid[i_StartRow, i_StartCol].IsKing)
                 {
-                    // חייל רגיל: יכול לנוע רק קדימה
-                    if ((i_currentPlayer.Symbol == 'X' && rowDiff >= 0) || (i_currentPlayer.Symbol == 'O' && rowDiff <= 0))
+                    if ((i_CurrentPlayer.Symbol == 'X' && rowDiff >= 0) || (i_CurrentPlayer.Symbol == 'O' && rowDiff <= 0))
                     {
                         return false;
                     }
@@ -93,62 +84,52 @@ namespace Cheaker2
             }
             else if (Math.Abs(rowDiff) == 2 && Math.Abs(colDiff) == 2)
             {
-                // מהלך אכילה: שתי משבצות באלכסון
-                int middleRow = (i_startRow + i_endRow) / 2;
-                int middleCol = (i_startCol + i_endCol) / 2;
+                int middleRow = (i_StartRow + i_EndRow) / 2;
+                int middleCol = (i_StartCol + i_EndCol) / 2;
 
-                if (Grid[middleRow, middleCol] != null && Grid[middleRow, middleCol].Symbol != i_currentPlayer.Symbol)
+                if (Grid[middleRow, middleCol] != null && Grid[middleRow, middleCol].Symbol != i_CurrentPlayer.Symbol)
                 {
-                    // אכילה חוקית
-                    Grid[middleRow, middleCol] = null;// הסרת כלי היריב
+                    Grid[middleRow, middleCol] = null;
                     return true;
                 }
             }
-            return false; // אם אף תנאי לא מתקיים, המהלך אינו חוקי
+            return false;
         }
-
-        public void UpdateBoard(int i_startRow, int i_startCol, int i_endRow, int i_endCol)
+        public void UpdateBoard(int i_StartRow, int i_StartCol, int i_EndRow, int i_EndCol)
         {
-            // העברת הכלי למשבצת הסופית
-            Grid[i_endRow, i_endCol] = Grid[i_startRow, i_startCol];
-            Grid[i_startRow, i_startCol] = null;
+            Grid[i_EndRow, i_EndCol] = Grid[i_StartRow, i_StartCol];
+            Grid[i_StartRow, i_StartCol] = null;
 
-            // בדיקה אם המהלך הוא מהלך אכילה
-            if (Math.Abs(i_endRow - i_startRow) == 2 && Math.Abs(i_endCol - i_startCol) == 2)
+            if (Math.Abs(i_EndRow - i_StartRow) == 2 && Math.Abs(i_EndCol - i_StartCol) == 2)
             {
-                // חישוב מיקום הכלי היריב שנמצא באמצע
-                int middleRow = (i_startRow + i_endRow) / 2;
-                int middleCol = (i_startCol + i_endCol) / 2;
-
-                // הסרת הכלי היריב
+                int middleRow = (i_StartRow + i_EndRow) / 2;
+                int middleCol = (i_StartCol + i_EndCol) / 2;
                 Grid[middleRow, middleCol] = null;
             }
-
-            // בדיקה אם יש צורך לקדם את הכלי למלך
-            PromoteToKingIfApplicable(i_endRow, i_endCol);
+            PromoteToKingIfApplicable(i_EndRow, i_EndCol);
         }
 
-        private void PromoteToKingIfApplicable(int row, int col)
+        private void PromoteToKingIfApplicable(int i_Row, int i_Col)
         {
-            if (Grid[row, col] == null) return;
-
-            // קידום למלך אם הכלי הגיע לקצה הלוח
-            if ((Grid[row, col].Symbol == 'X' && row == 0) || (Grid[row, col].Symbol == 'O' && row == Grid.GetLength(0) - 1))
+            if (Grid[i_Row, i_Col] == null)
             {
-                Grid[row, col].PromoteToKing();
+                return;
+            }
+
+            if ((Grid[i_Row, i_Col].Symbol == 'X' && i_Row == 0) || (Grid[i_Row, i_Col].Symbol == 'O' && i_Row == Grid.GetLength(0) - 1))
+            {
+                Grid[i_Row, i_Col].PromoteToKing();
             }
         }
-
-        public bool HasMandatoryCapture(Player i_player)
+        public bool HasMandatoryCapture(Player i_Player)
         {
             for (int row = 0; row < Size; row++)
             {
                 for (int col = 0; col < Size; col++)
                 {
 
-                    if (Grid[row, col] != null && Grid[row, col].Owner == i_player.Id)
+                    if (Grid[row, col] != null && Grid[row, col].Owner == i_Player.Id)
                     {
-                        // בדוק אם יש מהלך אכילה אפשרי עבור הכלי
                         if (CanCapture(row, col))
                         {
                             return true;
@@ -156,41 +137,37 @@ namespace Cheaker2
                     }
                 }
             }
-
             return false;
         }
-
-        public bool CanCapture(int i_row, int i_col)
+        public bool CanCapture(int i_Row, int i_Col)
         {
-            if (Grid[i_row, i_col] == null)
+            if (Grid[i_Row, i_Col] == null)
             {
-                return false; // אין כלי במשבצת הנוכחית
+                return false;
             }
             int[,] directions;
 
-            if (Grid[i_row, i_col].IsKing)
+            if (Grid[i_Row, i_Col].IsKing)
             {
                 directions = new int[,] { { -2, -2 }, { -2, 2 }, { 2, -2 }, { 2, 2 } };
             }
             else
             {
-                // חייל רגיל יכול לנוע רק קדימה
-                directions = Grid[i_row, i_col].Symbol == 'X'
-                    ? new int[,] { { -2, -2 }, { -2, 2 } } // חייל "X" נע כלפי מעלה
-                    : new int[,] { { 2, -2 }, { 2, 2 } };  // חייל "O" נע כלפי מטה
+                directions = Grid[i_Row, i_Col].Symbol == 'X'
+                    ? new int[,] { { -2, -2 }, { -2, 2 } }
+                    : new int[,] { { 2, -2 }, { 2, 2 } };
             }
 
             for (int i = 0; i < directions.GetLength(0); i++)
             {
-                int targetRow = i_row + directions[i, 0];
-                int targetCol = i_col + directions[i, 1];
-                int middleRow = i_row + directions[i, 0] / 2;
-                int middleCol = i_col + directions[i, 1] / 2;
+                int targetRow = i_Row + directions[i, 0];
+                int targetCol = i_Col + directions[i, 1];
+                int middleRow = i_Row + directions[i, 0] / 2;
+                int middleCol = i_Col + directions[i, 1] / 2;
 
-                // בדיקה אם הכלי יכול לאכול כלי יריב
                 if (IsWithinBounds(targetRow, targetCol) && IsWithinBounds(middleRow, middleCol) &&
                     Grid[middleRow, middleCol] != null &&
-                    Grid[middleRow, middleCol].Symbol != Grid[i_row, i_col].Symbol &&
+                    Grid[middleRow, middleCol].Owner != Grid[i_Row, i_Col].Owner &&
                     Grid[targetRow, targetCol] == null)
                 {
                     return true;
@@ -199,21 +176,20 @@ namespace Cheaker2
             return false;
         }
 
-        private bool IsWithinBounds(int i_row, int i_col)
+        private bool IsWithinBounds(int i_Row, int i_Col)
         {
-            return i_row >= 0 && i_row < Size && i_col >= 0 && i_col < Size;
+            return i_Row >= 0 && i_Row < Size && i_Col >= 0 && i_Col < Size;
         }
 
-        public bool IsCaptureMove(int i_startRow, int i_startCol, int i_endRow, int i_endCol, Player i_player)
+        public bool IsCaptureMove(int i_StartRow, int i_StartCol, int i_EndRow, int i_EndCol, Player i_Player)
         {
-            int middleRow = (i_startRow + i_endRow) / 2;
-            int middleCol = (i_startCol + i_endCol) / 2;
-
-            return Math.Abs(i_endRow - i_startRow) == 2 &&
-                   Math.Abs(i_endCol - i_startCol) == 2 &&
+            int middleRow = (i_StartRow + i_EndRow) / 2;
+            int middleCol = (i_StartCol + i_EndCol) / 2;
+            return Math.Abs(i_EndRow - i_StartRow) == 2 &&
+                   Math.Abs(i_EndCol - i_StartCol) == 2 &&
                    Grid[middleRow, middleCol] != null &&
-                   Grid[middleRow, middleCol].Symbol != i_player.Symbol &&
-                   Grid[i_endRow, i_endCol] == null;
+                   Grid[middleRow, middleCol].Symbol != i_Player.Symbol &&
+                   Grid[i_EndRow, i_EndCol] == null;
         }
 
         public string CheckGameOver()
@@ -233,7 +209,6 @@ namespace Cheaker2
                 break;
             }
 
-
             if (!player1HasMoves)
             {
                 return "Player2";
@@ -243,29 +218,25 @@ namespace Cheaker2
                 return "Player1";
             }
 
-            return null; // Game is not over
+            return null;
         }
 
-   
-
-         public string[] GetAvailableMoves(string player)
-         {
-             string[] moves = new string[Size * Size * 4];
-             int moveIndex = 0;
+        public string[] GetAvailableMoves(string i_Player)
+        {
+            string[] moves = new string[Size * Size * 4];
+            int moveIndex = 0;
 
             for (int row = 0; row < Size; row++)
             {
                 for (int col = 0; col < Size; col++)
                 {
-                    Piece piece = Grid[row, col];
-                    if (piece != null && piece.Owner == player)
+                    if (Grid[row, col] != null && Grid[row, col].Owner == i_Player)
                     {
-                        
-                        AddCaptureMoves(row, col, player, moves, ref moveIndex);
+                        AddCaptureMoves(row, col, moves, ref moveIndex);
                     }
                 }
             }
-            
+
             string[] CapturevalidMoves = new string[moveIndex];
             Array.Copy(moves, CapturevalidMoves, moveIndex);
             if (CapturevalidMoves.Length > 0)
@@ -273,103 +244,79 @@ namespace Cheaker2
                 return CapturevalidMoves;
             }
 
-
             for (int row = 0; row < Size; row++)
             {
                 for (int col = 0; col < Size; col++)
                 {
                     Piece piece = Grid[row, col];
-                    if (piece != null && piece.Owner == player)
+                    if (piece != null && piece.Owner == i_Player)
                     {
-
                         AddRegularMoves(row, col, moves, ref moveIndex);
                     }
                 }
             }
-
-            // Resize array to fit only valid moves
-            
-           
-
             string[] RegularvalidMoves = new string[moveIndex];
             Array.Copy(moves, RegularvalidMoves, moveIndex);
-
-          
-
             return RegularvalidMoves;
-
-
-             /*for (int row = 0; row < Size; row++)
-             {
-                 for (int col = 0; col < Size; col++)
-                 {
-                     Piece piece = Grid[row, col];
-                     if (piece != null && piece.Owner == player)
-                     {
-                         AddRegularMoves(row, col, moves, ref moveIndex);
-                         AddCaptureMoves(row, col, player, moves, ref moveIndex);
-                     }
-                 }
-             }
-
-             // Resize array to fit only valid moves
-             string[] validMoves = new string[moveIndex];
-             Array.Copy(moves, validMoves, moveIndex);
-             return validMoves;*/
-         }
-
-         private void AddRegularMoves(int row, int col, string[] moves, ref int moveIndex)
-         {
-             int[] directions = { -1, 1 }; // Diagonal directions
-             foreach (int dr in directions)
-             {
-                 foreach (int dc in directions)
-                 {
-                     int targetRow = row + dr;
-                     int targetCol = col + dc;
-
-                     if (IsInBounds(targetRow, targetCol) && Grid[targetRow, targetCol] == null)
-                     {
-                         moves[moveIndex++] = ConvertToMoveString(row, col, targetRow, targetCol);
-                     }
-                 }
-             }
-         }
-
-
-         private void AddCaptureMoves(int row, int col, string player, string[] moves, ref int moveIndex)
-         {
-             int[] directions = { -1, 1 }; // Diagonal directions
-             foreach (int dr in directions)
-             {
-                 foreach (int dc in directions)
-                 {
-                     int midRow = row + dr;
-                     int midCol = col + dc;
-                     int targetRow = row + 2 * dr;
-                     int targetCol = col + 2 * dc;
-
-                     if (IsInBounds(midRow, midCol) && IsInBounds(targetRow, targetCol))
-                     {
-                         Piece midPiece = Grid[midRow, midCol];
-                         if (midPiece != null && midPiece.Owner != player && Grid[targetRow, targetCol] == null)
-                         {
-                             moves[moveIndex++] = ConvertToMoveString(row, col, targetRow, targetCol);
-                         }
-                     }
-                 }
-             }
-         }
-
-        private string ConvertToMoveString(int startRow, int startCol, int endRow, int endCol)
-        {
-            return $"{(char)('A' + startRow)}{(char)('a' + startCol)}>{(char)('A' + endRow)}{(char)('a' + endCol)}";
         }
-
-        private bool IsInBounds(int row, int col)
+        private void AddRegularMoves(int i_Row, int i_Col, string[] i_Moves, ref int i_MoveIndex)
         {
-            return row >= 0 && row < Size && col >= 0 && col < Size;
-        }
+            int[] directions = { -1, 1 };
+            foreach (int dr in directions)
+            {
+                foreach (int dc in directions)
+                {
+                    int targetRow = i_Row + dr;
+                    int targetCol = i_Col + dc;
+                   
+                    if (Grid[i_Row, i_Col].Symbol == 'O')
+                    {
+                        if (!(Grid[i_Row, i_Col].IsKing) && targetRow < i_Row)
+                        {
+                            break;
+                        }
+                    }
 
+                    if (IsWithinBounds(targetRow, targetCol) && Grid[targetRow, targetCol] == null)
+                    {
+                        i_Moves[i_MoveIndex++] = ConvertToMoveString(i_Row, i_Col, targetRow, targetCol);
+                    }
+                }
+            }
+        }
+        private void AddCaptureMoves(int i_Row, int i_Col, string[] i_Moves, ref int i_MoveIndex)
+        {
+
+            int[,] directions;
+
+            if (Grid[i_Row, i_Col].IsKing)
+            {
+                directions = new int[,] { { -2, -2 }, { -2, 2 }, { 2, -2 }, { 2, 2 } };
+            }
+            else
+            {
+                directions = new int[,] { { 2, -2 }, { 2, 2 } };
+            }
+
+            for (int i = 0; i < directions.GetLength(0); i++)
+            {
+                int targetRow = i_Row + directions[i, 0];
+                int targetCol = i_Col + directions[i, 1];
+                int middleRow = i_Row + directions[i, 0] / 2;
+                int middleCol = i_Col + directions[i, 1] / 2;
+
+                if (IsWithinBounds(targetRow, targetCol) && IsWithinBounds(middleRow, middleCol) &&
+                    Grid[middleRow, middleCol] != null &&
+                    Grid[middleRow, middleCol].Symbol != Grid[i_Row, i_Col].Symbol &&
+                    Grid[targetRow, targetCol] == null)
+                {
+                    i_Moves[i_MoveIndex++] = ConvertToMoveString(i_Row, i_Col, targetRow, targetCol);
+                }
+            }
+        }
+        private string ConvertToMoveString(int i_StartRow, int i_StartCol, int i_EndRow, int i_EndCol)
+        {
+            return $"{(char)('A' + i_StartRow)}{(char)('a' + i_StartCol)}>{(char)('A' + i_EndRow)}{(char)('a' + i_EndCol)}";
+        }
     }
 }

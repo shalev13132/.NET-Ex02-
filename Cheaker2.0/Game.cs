@@ -1,216 +1,212 @@
 ﻿using System;
 
-namespace Cheaker2
+namespace Ex02
 {
     public class Game
     {
-        private readonly Board board;
-        public readonly Player player1;
-        public readonly Player player2;
+        private readonly Board m_Board;
+        public readonly Player m_Player1;
+        public readonly Player m_Player2;
 
-        public Game(int boardSize, string player1Name, string player2Name, int player1Points = 0, int player2Points = 0)
+        public Game(int i_BoardSize, string i_Player1Name, string i_Player2Name, int i_Player1Points = 0, int i_Player2Points = 0)
         {
-            board = new Board(boardSize);
-            player1 = new Player(player1Name, "Player1", 'X', player1Points);
-            player2 = new Player(player2Name, "Player2", 'O', player2Points);
-            
+            m_Board = new Board(i_BoardSize);
+            m_Player1 = new Player(i_Player1Name, "Player1", 'X', i_Player1Points);
+            m_Player2 = new Player(i_Player2Name, "Player2", 'O', i_Player2Points);
         }
-
 
         public void Start()
         {
-            Player m_currentPlayer = player1;
-            Player m_previusPlayer = player2;
+            Player m_CurrentPlayer = m_Player1;
+            Player m_PreviousPlayer = m_Player2;
             bool m_FirstMoveFlag = true;
 
             while (true)
             {
-                string move;
-                Console.Clear();
-                ConsoleUI.DisplayBoard(board);
+                string m_Move;
+                Ex02.ConsoleUtils.Screen.Clear();
+                ConsoleUI.DisplayBoard(m_Board);
                 if (m_FirstMoveFlag)
                 {
-                    ConsoleUI.DisplayFirstTurnMessage(m_currentPlayer);
+                    ConsoleUI.DisplayFirstTurnMessage(m_CurrentPlayer);
                     m_FirstMoveFlag = false;
                 }
                 else
                 {
-                    ConsoleUI.DisplayPreTurnMessage(m_currentPlayer, m_previusPlayer);
+                    ConsoleUI.DisplayPreTurnMessage(m_CurrentPlayer, m_PreviousPlayer);
                 }
 
-                string gameOverResult = board.CheckGameOver();
+                string gameOverResult = m_Board.CheckGameOver();
                 if (gameOverResult != null)
                 {
                     HandleGameOver(gameOverResult);
                     break;
                 }
 
-
-                string gameState = board.CheckGameOver(); // Check if the game is over
-                bool hasMandatoryCapture = board.HasMandatoryCapture(m_currentPlayer);
-
-
-               if (m_currentPlayer.Id == "Player2" && m_currentPlayer.Name == "Computer")
+                if (m_CurrentPlayer.Id == "Player2" && m_CurrentPlayer.Name == "Computer ")
                 {
-                    string[] availableMoves = board.GetAvailableMoves(m_currentPlayer.Id);
+                    string[] availableMoves = m_Board.GetAvailableMoves(m_CurrentPlayer.Id);
+                    if (availableMoves == null)
+                    {
+                        HandleGameOver("Player1");
+                        break;
+                    }
                     Random random = new Random();
                     int randomIndex = random.Next(availableMoves.Length);
-
-                    move = availableMoves[randomIndex];
-                    
+                    m_Move = availableMoves[randomIndex];
                 }
                 else
                 {
-                    move = Console.ReadLine();
+                    m_Move = Console.ReadLine();
                 }
+                m_CurrentPlayer.Move = m_Move;
 
-                m_currentPlayer.Move = move;
-
-
-                if (gameState != null)
+                if (m_Move == "Q")
                 {
-
-                    break;
-                }
-                if (move == "Q")
-                {
-                    ConsoleUI.DisplayResignMessage(m_currentPlayer, m_previusPlayer);
+                    ConsoleUI.DisplayResignMessage(m_CurrentPlayer, m_PreviousPlayer);
+                    m_PreviousPlayer.Points = 10;
                     break;
                 }
 
-
-
-                if (!ParseMove(move, out int startRow, out int startCol, out int endRow, out int endCol))
+                if (!ParseMove(m_Move, out int i_StartRow, out int i_StartCol, out int i_EndRow, out int i_EndCol))
                 {
                     ConsoleUI.DisplayFormatErrorMessage();
                     continue;
                 }
 
-                // אם קיימת חובה לבצע אכילה, ודא שהמהלך הוא מהלך אכילה
-                if (board.HasMandatoryCapture(m_currentPlayer) && !board.IsCaptureMove(startRow, startCol, endRow, endCol, m_currentPlayer))
+                if (m_Board.HasMandatoryCapture(m_CurrentPlayer) && !m_Board.IsCaptureMove(i_StartRow, i_StartCol, i_EndRow, i_EndCol, m_CurrentPlayer))
                 {
                     ConsoleUI.DisplayCaptureErrorMessage();
                     continue;
                 }
 
-                // בדוק אם המהלך חוקי
-                if (board.IsMoveValid(startRow, startCol, endRow, endCol, m_currentPlayer))
+                if (m_Board.IsMoveValid(i_StartRow, i_StartCol, i_EndRow, i_EndCol, m_CurrentPlayer))
                 {
-                    board.UpdateBoard(startRow, startCol, endRow, endCol);
+                    m_Board.UpdateBoard(i_StartRow, i_StartCol, i_EndRow, i_EndCol);
 
-                    // קידום למלך אם נדרש
-                    if (endRow == 0 || endRow == board.Size - 1)
+                    if (i_EndRow == 0 || i_EndRow == m_Board.Size - 1)
                     {
-                        board.Grid[endRow, endCol].PromoteToKing();
+                        m_Board.Grid[i_EndRow, i_EndCol].PromoteToKing();
                     }
 
-                    while (board.CanCapture(endRow, endCol))
+                    while (m_Board.CanCapture(i_EndRow, i_EndCol))
                     {
-                        if (Math.Abs(endRow - startRow) != 2 && Math.Abs(endCol - startCol) != 2)
+                        if (Math.Abs(i_EndRow - i_StartRow) != 2 && Math.Abs(i_EndCol - i_StartCol) != 2)
                         {
                             break;
                         }
 
-                        Console.Clear();
-                        ConsoleUI.DisplayBoard(board);
-                        ConsoleUI.DisplayPreTurnMessage(m_currentPlayer, m_currentPlayer);
-                        move = Console.ReadLine();
-                        m_currentPlayer.Move = move;
-                        if (!ParseMove(move, out int nextStartRow, out int nextStartCol, out int nextEndRow, out int nextEndCol) ||
-                            nextStartRow != endRow || nextStartCol != endCol)
+                        Ex02.ConsoleUtils.Screen.Clear();
+                        ConsoleUI.DisplayBoard(m_Board);
+                        ConsoleUI.DisplayPreTurnMessage(m_CurrentPlayer, m_CurrentPlayer);
+                        if (m_CurrentPlayer.Id == "Player2" && m_CurrentPlayer.Name == "Computer ")
+                        {
+                            string[] availableMoves = m_Board.GetAvailableMoves(m_CurrentPlayer.Id);
+                            if (availableMoves == null)
+                            {
+                                HandleGameOver("Player1");
+                                break;
+                            }
+                            Random random = new Random();
+                            int randomIndex = random.Next(availableMoves.Length);
+                            m_Move = availableMoves[randomIndex];
+                        }
+                        else
+                        {
+                            m_Move = Console.ReadLine();
+                        }
+                        m_CurrentPlayer.Move = m_Move;
+                        if (!ParseMove(m_Move, out int i_NextStartRow, out int i_NextStartCol, out int i_NextEndRow, out int i_NextEndCol) ||
+                            i_NextStartRow != i_EndRow || i_NextStartCol != i_EndCol)
                         {
                             ConsoleUI.DisplayFormatErrorMessage();
                             continue;
                         }
 
-                        if (!board.IsCaptureMove(nextStartRow, nextStartCol, nextEndRow, nextEndCol, m_currentPlayer))
+                        if (!m_Board.IsCaptureMove(i_NextStartRow, i_NextStartCol, i_NextEndRow, i_NextEndCol, m_CurrentPlayer))
                         {
                             ConsoleUI.DisplayCaptureErrorMessage();
                             continue;
                         }
 
-                        board.UpdateBoard(nextStartRow, nextStartCol, nextEndRow, nextEndCol);
+                        m_Board.UpdateBoard(i_NextStartRow, i_NextStartCol, i_NextEndRow, i_NextEndCol);
 
-                        // עדכון למהלך הבא
-                        endRow = nextEndRow;
-                        endCol = nextEndCol;
+                        i_EndRow = i_NextEndRow;
+                        i_EndCol = i_NextEndCol;
                     }
 
-                    if (m_currentPlayer == player1)
+                    if (m_CurrentPlayer == m_Player1)
                     {
-                        m_currentPlayer = player2;
-                        m_previusPlayer = player1;
+                        m_CurrentPlayer = m_Player2;
+                        m_PreviousPlayer = m_Player1;
                     }
                     else
                     {
-                        m_currentPlayer = player1;
-                        m_previusPlayer = player2;
+                        m_CurrentPlayer = m_Player1;
+                        m_PreviousPlayer = m_Player2;
                     }
                 }
 
                 else
                 {
                     Console.WriteLine("Invalid move. Please try again.");
+                    Console.ReadLine();
                 }
-
             }
             ConsoleUI.DisplayNewGameMessage();
         }
 
-        private bool ParseMove(string i_move, out int startRow, out int startCol, out int endRow, out int endCol)
+        private bool ParseMove(string i_Move, out int io_StartRow, out int io_StartCol, out int io_EndRow, out int io_EndCol)
         {
-            startRow = startCol = endRow = endCol = -1;
+            io_StartRow = io_StartCol = io_EndRow = io_EndCol = -1;
 
-            if (string.IsNullOrWhiteSpace(i_move) || i_move.Length != 5 || i_move[2] != '>')
+            if (string.IsNullOrWhiteSpace(i_Move) || i_Move.Length != 5 || i_Move[2] != '>')
             {
                 return false;
             }
 
-            startRow = i_move[0] - 'A';
-            startCol = i_move[1] - 'a';
-            endRow = i_move[3] - 'A';
-            endCol = i_move[4] - 'a';
+            io_StartRow = i_Move[0] - 'A';
+            io_StartCol = i_Move[1] - 'a';
+            io_EndRow = i_Move[3] - 'A';
+            io_EndCol = i_Move[4] - 'a';
             return true;
         }
 
-        private void HandleGameOver(string winner)
+        private void HandleGameOver(string i_Winner)
         {
-            if (winner == "Player1")
+            if (i_Winner == "Player1")
             {
-                player1.Points += CalculateScore(player1);
-                Console.WriteLine($"{player1.Name} wins!");
+                m_Player1.Points += CalculateScore(m_Player1);
+                Console.WriteLine($"{m_Player1.Name} wins!");
             }
-            else if (winner == "Player2")
+            else if (i_Winner == "Player2")
             {
-                player2.Points += CalculateScore(player2);
-                Console.WriteLine($"{player2.Name} wins!");
+                m_Player2.Points += CalculateScore(m_Player2);
+                Console.WriteLine($"{m_Player2.Name} wins!");
             }
             else
             {
                 Console.WriteLine("It's a draw!");
             }
-
-            Console.WriteLine($"Current Scores: {player1.Name}: {player1.Points}, {player2.Name}: {player2.Points}");
+            Console.WriteLine($"Current Scores: {m_Player1.Name}: {m_Player1.Points}, {m_Player2.Name}: {m_Player2.Points}");
         }
 
-        private int CalculateScore(Player player)
+        private int CalculateScore(Player i_Player)
         {
             int score = 0;
 
-            for (int row = 0; row < board.Size; row++)
+            for (int row = 0; row < m_Board.Size; row++)
             {
-                for (int col = 0; col < board.Size; col++)
+                for (int col = 0; col < m_Board.Size; col++)
                 {
-                    Piece piece = board.Grid[row, col];
-                    if (piece != null && piece.Owner == player.Id)
+                    Piece piece = m_Board.Grid[row, col];
+                    if (piece != null && piece.Owner == i_Player.Id)
                     {
                         score += piece.IsKing ? 4 : 1;
                     }
                 }
             }
-
             return score;
         }
-
     }
 }

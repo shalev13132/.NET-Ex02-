@@ -1,48 +1,38 @@
 ﻿using System;
 
-namespace Cheaker2
+namespace Ex02
 {
     class Program
     {
         static void Main()
         {
             Console.WriteLine("Welcome to Checkers!");
-
-            string m_player1Name = GetValidPlayerName("Player 1");
-            int m_boardSize = GetBoardSize();
-            string m_player2Name = GameModeSelect();
-
-            int player1Points = 0;
-            int player2Points = 0;
+            string m_Player1Name = GetValidPlayerName("Player 1"); 
+            int m_BoardSize = GetBoardSize(); 
+            string m_Player2Name = GameModeSelect(); 
+            int m_Player1Points = 0; 
+            int m_Player2Points = 0; 
 
             do
             {
-                Game game = new Game(m_boardSize, m_player1Name, m_player2Name, player1Points, player2Points);
-                game.Start();
-
-                // עדכון ניקוד מצטבר
-                player1Points = game.player1.Points;
-                player2Points = game.player2.Points;
-
-                Console.WriteLine($"Current Scores: {m_player1Name}: {player1Points}, {m_player2Name}: {player2Points}");
-
-                //Console.WriteLine("Would you like to play another game? (Y/N): ");
+                Game m_Game = new Game(m_BoardSize, m_Player1Name, m_Player2Name, m_Player1Points, m_Player2Points); 
+                m_Game.Start();
+                m_Player1Points = m_Game.m_Player1.Points; 
+                m_Player2Points = m_Game.m_Player2.Points; 
             }
             while (Console.ReadLine()?.ToUpper() == "Y");
 
             Console.WriteLine("Thanks for playing! Final Scores:");
-            Console.WriteLine($"{m_player1Name}: {player1Points}, {m_player2Name}: {player2Points}");
+            ConsoleUI.PointsPrint(m_Player1Name, m_Player1Points, m_Player2Name, m_Player2Points); 
+            Console.ReadLine();
         }
 
-         
-        
-
-        static string GetValidPlayerName(string i_playerLabel)
+        static string GetValidPlayerName(string i_PlayerLabel) 
         {
             string playerName;
             do
             {
-                Console.Write($"Enter {i_playerLabel} Name (up to 20 characters, no spaces): ");
+                Console.Write("Enter {0} Name (up to 20 characters, no spaces): ", i_PlayerLabel); 
                 playerName = Console.ReadLine();
 
                 if (string.IsNullOrWhiteSpace(playerName))
@@ -88,35 +78,29 @@ namespace Cheaker2
             return boardSize;
         }
 
-        static private string GameModeSelect()
+        static private string GameModeSelect() 
         {
             string input;
             string playerName;
 
             while (true)
             {
-                Console.WriteLine("for 2 players game please enter 1, to play against the computer please enter 2 ");
+                Console.WriteLine("For 2 players game please enter 1, to play against the computer please enter 2:");
                 input = Console.ReadLine();
 
                 if (input.Equals("1"))
                 {
-                    playerName = GetValidPlayerName("Player 2");
+                    playerName = GetValidPlayerName("Player 2"); 
                     break;
                 }
                 else if (input.Equals("2"))
                 {
-                    playerName = "Computer";
+                    playerName = "Computer "; 
                     break;
                 }
                 Console.WriteLine("Invalid input.");
             }
             return playerName;
         }
-
-
     }
-
-
-
-
 }

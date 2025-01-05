@@ -1,4 +1,4 @@
-﻿namespace Cheaker2
+﻿namespace Ex02
 {
     public class Player
     {
@@ -8,7 +8,6 @@
         public string Move { get; internal set; }
         public int Points { get; internal set; }
 
-
         public Player(string name, string id, char symbol, int initialPoints = 0)
         {
             Name = name;
@@ -17,5 +16,4 @@
             Points = initialPoints;
         }
     }
-
 }

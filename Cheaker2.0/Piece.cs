@@ -1,20 +1,17 @@
-﻿
-
-namespace Cheaker2
+﻿namespace Ex02
 {
     public class Piece
     {
-        public char Symbol { get; private set; } // X או O
+        public char Symbol { get; private set; } 
         public bool IsKing { get; private set; }
-        public string Owner { get; private set; } // שם הבעלים של הכלי
+        public string Owner { get; private set; } 
 
-        public Piece(char symbol, string owner)
+        public Piece(char i_Symbol, string i_Owner)
         {
-            Symbol = symbol;
+            Symbol = i_Symbol;
             IsKing = false;
-            Owner = owner;
+            Owner = i_Owner;
         }
-
         public void PromoteToKing()
         {
             if (!IsKing)

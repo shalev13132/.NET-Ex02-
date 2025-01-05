@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "Cheaker2.0/1.0.0": {
+        "runtime": {
+          "Cheaker2.0.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Cheaker2.0/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
